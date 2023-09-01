@@ -1,0 +1,26 @@
+title: WinRAR vulnerability CVE-2023-38831 via Sysmon Event 11 (file creation)
+id: 6c99b2ba-5045-491a-b2dd-c3feac7f6c36
+related:
+status: experimental
+description: Detects the exploitation of CVE-2023-38831 looking for the creation of files with double extentions ending with bat or cmd
+references:
+    - https://www.group-ib.com/blog/cve-2023-38831-winrar-zero-day/
+author: CYS4
+date: 2023/09/1
+logsource:
+    product: windows
+    category: file_event
+detection:
+    selection:
+        TargetFilename|contains|all:
+            - 'AppData'
+            - 'Temp'
+            - 'Local'
+            - 'Rar$'
+        TargetFilename|endswith:
+            - '.*.cmd'
+            - '.*.bat'
+    condition: selection
+falsepositives:
+    - unknown
+level: high
